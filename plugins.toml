@@ -1,0 +1,35 @@
+# Every Plugin the Index publishes: where its source lives and which git tag
+# is published. A pull request that adds or bumps an entry is a publication:
+# .github/workflows/publish.yml clones the tag, validates plugin.toml, packs
+# <id>-<version>.tar.gz, attaches it to a GitHub Release of this repository
+# (tag `<id>-v<version>`) and appends the version line to index/<id>.json.
+#
+# `tag` (a git tag) or `rev` (a commit id) says what to publish; `path` is
+# the Plugin directory inside the repository (default: its root). The
+# version comes from the Plugin's own plugin.toml.
+
+[rust]
+repository = "https://github.com/LawsonLamb/slop-scanner"
+rev = "e70f838bb0bfe16a3d00d32e3db48baabee1801c"
+path = "plugins/rust"
+
+[typescript]
+repository = "https://github.com/LawsonLamb/slop-scanner"
+rev = "e70f838bb0bfe16a3d00d32e3db48baabee1801c"
+path = "plugins/typescript"
+
+[python]
+repository = "https://github.com/LawsonLamb/slop-scanner"
+rev = "e70f838bb0bfe16a3d00d32e3db48baabee1801c"
+path = "plugins/python"
+
+[go]
+repository = "https://github.com/LawsonLamb/slop-scanner"
+rev = "e70f838bb0bfe16a3d00d32e3db48baabee1801c"
+path = "plugins/go"
+
+[java]
+repository = "https://github.com/LawsonLamb/slop-scanner"
+rev = "e70f838bb0bfe16a3d00d32e3db48baabee1801c"
+path = "plugins/java"
+

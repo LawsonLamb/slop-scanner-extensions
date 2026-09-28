@@ -1,0 +1,45 @@
+name: Publish plugins
+
+# A change to plugins.toml on main publishes every Plugin whose version is
+# not yet in the index: a GitHub Release per Plugin version holds the
+# archive, and index/<id>.json gains the line `slop plugin install` reads.
+# Pull requests only pack and print the lines, so a bad entry is caught in
+# review without releasing anything.
+
+on:
+  push:
+    branches: [main]
+    paths: [plugins.toml]
+  pull_request:
+    paths: [plugins.toml]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      # For Plugins that ship no grammar.wasm; it fetches wasi-sdk itself.
+      # The version is the one slop-scanner's checked-in grammars are built
+      # with (scripts/build-grammars.sh there).
+      - run: cargo install --locked tree-sitter-cli --version 0.27.0
+      - name: Pack (pull request)
+        if: github.event_name == 'pull_request'
+        run: scripts/publish.sh --dry-run
+      - name: Publish (main)
+        if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          scripts/publish.sh
+          if ! git diff --quiet -- index/; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add index/
+            git commit -m "Index: $(git diff --cached --name-only -- index/ | sed 's|index/||; s|\.json||' | tr '\n' ' ')"
+            git push
+          fi
