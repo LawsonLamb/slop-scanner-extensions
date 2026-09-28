@@ -1,0 +1,35 @@
+# Every Extension the Index publishes: where its source lives and which git tag
+# is published. A pull request that adds or bumps an entry is a publication:
+# .github/workflows/publish.yml clones the tag, validates extension.toml, packs
+# <id>-<version>.tar.gz, attaches it to a GitHub Release of this repository
+# (tag `<id>-v<version>`) and appends the version line to index/<id>.json.
+#
+# `tag` (a git tag) or `rev` (a commit id) says what to publish; `path` is
+# the Extension directory inside the repository (default: its root). The
+# version comes from the Extension's own extension.toml.
+
+[rust]
+repository = "https://github.com/LawsonLamb/slop-scanner"
+rev = "2cfaab6aac7298b5349d7d03b35b902d21a439f3"
+path = "languages/rust"
+
+[typescript]
+repository = "https://github.com/LawsonLamb/slop-scanner"
+rev = "2cfaab6aac7298b5349d7d03b35b902d21a439f3"
+path = "languages/typescript"
+
+[python]
+repository = "https://github.com/LawsonLamb/slop-scanner"
+rev = "2cfaab6aac7298b5349d7d03b35b902d21a439f3"
+path = "languages/python"
+
+[go]
+repository = "https://github.com/LawsonLamb/slop-scanner"
+rev = "2cfaab6aac7298b5349d7d03b35b902d21a439f3"
+path = "languages/go"
+
+[java]
+repository = "https://github.com/LawsonLamb/slop-scanner"
+rev = "2cfaab6aac7298b5349d7d03b35b902d21a439f3"
+path = "languages/java"
+

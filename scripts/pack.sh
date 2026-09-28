@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# Packs one Plugin directory into <id>-<version>.tar.gz and prints the
+# Packs one Extension directory into <id>-<version>.tar.gz and prints the
 # index line for it.
 #
-#   scripts/pack.sh <plugin dir> <out dir> <download url template>
+#   scripts/pack.sh <extension dir> <out dir> <download url template>
 #
 # The template may use {id}, {version} and {file}; the default is this
 # repository's GitHub Releases. Prints one JSON object (an index/<id>.json
 # line) on stdout. The archive is reproducible: entries sorted, mtimes
-# zeroed, no owner, so the same Plugin files always give the same SHA-256.
+# zeroed, no owner, so the same Extension files always give the same SHA-256.
 set -euo pipefail
 
 dir="$(cd "$1" && pwd)"
@@ -17,8 +17,8 @@ template="${3:-}"
 [ -n "$template" ] || template='https://github.com/LawsonLamb/slop-scanner-plugins/releases/download/{id}-v{version}/{file}'
 mkdir -p "$out"
 
-manifest="$dir/plugin.toml"
-[ -f "$manifest" ] || { echo "$dir: no plugin.toml" >&2; exit 2; }
+manifest="$dir/extension.toml"
+[ -f "$manifest" ] || { echo "$dir: no extension.toml" >&2; exit 2; }
 field() { sed -n 's/^'"$1"' *= *"\([^"]*\)".*/\1/p' "$manifest" | head -1; }
 num() { sed -n 's/^'"$1"' *= *\([0-9][0-9]*\).*/\1/p' "$manifest" | head -1; }
 id="$(field id)"
@@ -36,10 +36,6 @@ case "$kind" in
       [ -f "$dir/$f" ] || { echo "$dir: missing $f" >&2; exit 2; }
     done
     [ -n "$grammar_abi" ] || { echo "$manifest: grammar_abi is required" >&2; exit 2; }
-    ;;
-  vcs)
-    exe="$(field executable)"
-    [ -f "$dir/$exe" ] || [ -f "$dir/$exe.exe" ] || { echo "$dir: missing $exe" >&2; exit 2; }
     ;;
   *) echo "$manifest: unknown kind $kind" >&2; exit 2 ;;
 esac

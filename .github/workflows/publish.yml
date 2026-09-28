@@ -1,17 +1,17 @@
-name: Publish plugins
+name: Publish extensions
 
-# A change to plugins.toml on main publishes every Plugin whose version is
-# not yet in the index: a GitHub Release per Plugin version holds the
-# archive, and index/<id>.json gains the line `slop plugin install` reads.
+# A change to extensions.toml on main publishes every Extension whose version is
+# not yet in the index: a GitHub Release per Extension version holds the
+# archive, and index/<id>.json gains the line `slop extension install` reads.
 # Pull requests only pack and print the lines, so a bad entry is caught in
 # review without releasing anything.
 
 on:
   push:
     branches: [main]
-    paths: [plugins.toml]
+    paths: [extensions.toml]
   pull_request:
-    paths: [plugins.toml]
+    paths: [extensions.toml]
   workflow_dispatch:
 
 permissions:
@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
-      # For Plugins that ship no grammar.wasm; it fetches wasi-sdk itself.
+      # For Extensions that ship no grammar.wasm; it fetches wasi-sdk itself.
       # The version is the one slop-scanner's checked-in grammars are built
       # with (scripts/build-grammars.sh there).
       - run: cargo install --locked tree-sitter-cli --version 0.27.0
