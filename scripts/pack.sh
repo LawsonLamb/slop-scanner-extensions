@@ -14,7 +14,7 @@ dir="$(cd "$1" && pwd)"
 out="$2"
 template="${3:-}"
 # Braces in a `${3:-default}` would end the expansion early, so the default is set apart.
-[ -n "$template" ] || template='https://github.com/LawsonLamb/slop-scanner-plugins/releases/download/{id}-v{version}/{file}'
+[ -n "$template" ] || template='https://github.com/LawsonLamb/slop-scanner-extensions/releases/download/{id}-v{version}/{file}'
 mkdir -p "$out"
 
 manifest="$dir/extension.toml"

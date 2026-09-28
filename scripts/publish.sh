@@ -21,7 +21,7 @@ for arg in "$@"; do
     *) ids+=("$arg") ;;
   esac
 done
-repo_slug="${GITHUB_REPOSITORY:-LawsonLamb/slop-scanner-plugins}"
+repo_slug="${GITHUB_REPOSITORY:-LawsonLamb/slop-scanner-extensions}"
 work="$(mktemp -d)"
 trap 'rm -rf "$work"' EXIT
 

@@ -1,4 +1,4 @@
-# slop-scanner-plugins
+# slop-scanner-extensions
 
 The **Extension Index** for [Slop-Scanner](https://github.com/LawsonLamb/slop-scanner): the list of Language Extensions that `slop extension install <id>` reads, with the Extension archives attached to this repository's [Releases](../../releases). There is no server. `slop` fetches `index/extensions.json` and `index/<id>.json` from this repository's `main` branch through `raw.githubusercontent.com`, downloads the archive an entry names, checks its SHA-256 and unpacks it into the user's Extension directory.
 
