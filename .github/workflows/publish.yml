@@ -27,13 +27,19 @@ jobs:
       # The version is the one slop-scanner's checked-in grammars are built
       # with (scripts/build-grammars.sh there).
       - run: cargo install --locked tree-sitter-cli --version 0.27.0
+      # SLOP_SOURCE_TOKEN: a repository secret holding a token that can read
+      # private source repositories (slop-scanner is one); public sources
+      # need none.
       - name: Pack (pull request)
         if: github.event_name == 'pull_request'
+        env:
+          SLOP_SOURCE_TOKEN: ${{ secrets.SLOP_SOURCE_TOKEN }}
         run: scripts/publish.sh --dry-run
       - name: Publish (main)
         if: github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ github.token }}
+          SLOP_SOURCE_TOKEN: ${{ secrets.SLOP_SOURCE_TOKEN }}
         run: |
           scripts/publish.sh
           if ! git diff --quiet -- index/; then

@@ -44,11 +44,17 @@ for id in "${ids[@]}"; do
   [ -n "$repo" ] && { [ -n "$tag" ] || [ -n "$rev" ]; } \
     || { echo "$id: plugins.toml needs repository and a tag or rev" >&2; exit 2; }
   clone="$work/$id"
+  # A private source repository is cloned with SLOP_SOURCE_TOKEN (a
+  # fine-grained token with read access to it), never asked for a password.
+  clone_url="$repo"
+  if [ -n "${SLOP_SOURCE_TOKEN:-}" ]; then
+    clone_url="${repo/https:\/\/github.com\//https://x-access-token:$SLOP_SOURCE_TOKEN@github.com/}"
+  fi
   if [ -n "$tag" ]; then
-    git clone --quiet --depth 1 --branch "$tag" "$repo" "$clone"
+    GIT_TERMINAL_PROMPT=0 git clone --quiet --depth 1 --branch "$tag" "$clone_url" "$clone"
   else
     # A commit id cannot be cloned shallowly by name.
-    git clone --quiet "$repo" "$clone"
+    GIT_TERMINAL_PROMPT=0 git clone --quiet "$clone_url" "$clone"
     git -C "$clone" checkout --quiet --detach "$rev"
     tag="$rev"
   fi
@@ -79,7 +85,7 @@ for id in "${ids[@]}"; do
     --repo "$repo_slug" --title "$id $version" \
     --notes "Plugin \`$id\` $version, from $repo at $tag. Install with \`slop plugin install $id\`." >/dev/null
   echo "$line" >>"$index_file"
-  if ! grep -q "\"id\":\"$id\"" "$root/index/plugins.json"; then
+  if ! grep -Eq "\"id\": *\"$id\"" "$root/index/plugins.json"; then
     description="$(sed -n 's/^description *= *"\([^"]*\)".*/\1/p' "$src/plugin.toml" | head -1)"
     kind="$(sed -n 's/^kind *= *"\([^"]*\)".*/\1/p' "$src/plugin.toml" | head -1)"
     printf '{"id":"%s","kind":"%s","description":"%s"}\n' "$id" "$kind" "$description" >>"$root/index/plugins.json"

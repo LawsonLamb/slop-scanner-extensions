@@ -1,5 +1,5 @@
-{"id": "rust", "kind": "language", "description": "Rust, via tree-sitter-rust. Complexity follows rust-code-analysis 0.0.25."}
-{"id": "typescript", "kind": "language", "description": "TypeScript, TSX and JavaScript, via tree-sitter-typescript's TSX grammar. Complexity follows SonarJS."}
-{"id": "python", "kind": "language", "description": "Python, via tree-sitter-python. Complexity follows radon and rust-code-analysis."}
-{"id": "go", "kind": "language", "description": "Go, via tree-sitter-go. Complexity follows gocyclo and gocognit."}
-{"id": "java", "kind": "language", "description": "Java, via tree-sitter-java. Complexity follows PMD 7."}
+{"id":"rust","kind":"language","description":"Rust, via tree-sitter-rust. Complexity follows rust-code-analysis 0.0.25."}
+{"id":"typescript","kind":"language","description":"TypeScript, TSX and JavaScript, via tree-sitter-typescript's TSX grammar. Complexity follows SonarJS."}
+{"id":"python","kind":"language","description":"Python, via tree-sitter-python. Complexity follows radon and rust-code-analysis."}
+{"id":"go","kind":"language","description":"Go, via tree-sitter-go. Complexity follows gocyclo and gocognit."}
+{"id":"java","kind":"language","description":"Java, via tree-sitter-java. Complexity follows PMD 7."}

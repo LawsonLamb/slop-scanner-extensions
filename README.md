@@ -29,7 +29,7 @@ A version line is never removed. To withdraw one, set `"yanked": true` on its li
    ```
 
    The pull request's check packs the archive and prints the index line without publishing.
-4. On merge, the `Publish plugins` workflow creates the release `zig-v0.1.0` with `zig-0.1.0.tar.gz`, appends the line to `index/zig.json` and lists the Plugin in `index/plugins.json`.
+4. On merge, the `Publish plugins` workflow (which reads private source repositories through the `SLOP_SOURCE_TOKEN` repository secret, a token with read access to them) creates the release `zig-v0.1.0` with `zig-0.1.0.tar.gz`, appends the line to `index/zig.json` and lists the Plugin in `index/plugins.json`.
 
 `slop` picks, for a requested id, the newest version that is not yanked, was built for its own `slop_api`, and whose grammar ABI its tree-sitter reads; `slop plugin install zig@0.1` narrows it.
 
